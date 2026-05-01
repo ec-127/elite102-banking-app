@@ -47,6 +47,7 @@ def create_acct(name, init_deposit):
     cursor.close()
     conn.close()
     print("Account successfully created!")
+    print(f"Your account ID is: {account_id}\n")
     return {"id": account_id, "name": name, "balance": init_deposit}
 
 def deposit(account_id, amount):
@@ -57,7 +58,7 @@ def deposit(account_id, amount):
     conn.commit()
     cursor.close()
     conn.close()
-    print("Deposit successful.\n")
+    print(f"Deposit of ${amount} successful.\n")
 
 def withdraw(account_id, amount):
     conn = get_connection()
@@ -68,7 +69,7 @@ def withdraw(account_id, amount):
         cursor.execute(f"UPDATE accounts SET balance = balance - {amount} WHERE id = {account_id}")
         cursor.execute(f"INSERT INTO transactions (account_id, type, amount) VALUES ({account_id}, 'withdrawl', {amount})")
         conn.commit()
-        print("Withdrawl successful.\n")
+        print(f"Withdrawl of ${amount} successful.\n")
     else:
         print("Insufficient funds.\n")
     conn.close()
